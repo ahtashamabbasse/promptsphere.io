@@ -6,21 +6,15 @@ import {useState, useEffect} from "react";
 import {signIn, signOut, useSession, getProviders} from "next-auth/react";
 
 const Nav = () => {
-    const isUserLoggedIn = true
+    const {data: session} = useSession();
     const [providers, setProviders] = useState();
     const [toggleDropdown, setToggleDropdown] = useState(false);
 
     useEffect(() => {
-
         (async () => {
-
             const response = await getProviders();
-            console.log(response)
             setProviders(response)
-
         })()
-
-
     }, [])
 
 
@@ -34,7 +28,7 @@ const Nav = () => {
             {/*    Desktop Navigation     */}
             <div className={'sm:flex hidden'}>
                 {
-                    isUserLoggedIn ? (
+                    session?.user ? (
                         <div className={'flex gap-3 md:gap-5'}>
                             <Link href={'/create-prompt'} className={'black_btn'}> Create Post</Link>
                             <button
@@ -49,7 +43,7 @@ const Nav = () => {
                                     height={37}
                                     width={37}
                                     alt={'Profile'}
-                                    src={'/images/logo.svg'}
+                                    src={session.user.image}
                                     className={'rounded-full'}
                                 />
                             </Link>
@@ -71,13 +65,13 @@ const Nav = () => {
 
             {/*    Mobile Navigation     */}
             <div className={'sm:hidden flex relative'}>
-                {isUserLoggedIn ? (
+                {session?.user ? (
                     <div className={'flex'}>
                         <Image
                             height={37}
                             width={37}
                             alt={'Profile'}
-                            src={'/images/logo.svg'}
+                            src={session.user.image}
                             className={'rounded-full'}
                             onClick={() => setToggleDropdown(prevState => !prevState)}
                         />
@@ -104,7 +98,7 @@ const Nav = () => {
                                         signOut();
                                     }}
                                 >
-                                    Sign In
+                                    Sign Out
                                 </button>
                             </div>}
                     </div>
