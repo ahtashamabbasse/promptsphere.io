@@ -7,6 +7,9 @@ const PromptCardList = ({data, handleTagClick}) => {
     return <div className={'mt-16 prompt_layout'}>
 
         {data.map(post => {
+
+
+
             return <PromptCard
                 post={post}
                 key={post._id}
@@ -23,17 +26,12 @@ const Feed = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-
         (async () => {
 
             const response = await fetch('/api/prompt');
             const data = await response.json()
             setPosts(data)
-
-
         })()
-
-
     }, [])
 
 
