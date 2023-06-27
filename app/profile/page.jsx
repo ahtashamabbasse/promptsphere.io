@@ -21,7 +21,9 @@ const MyProfile = () => {
       }
    }, [session?.user?.id]);
 
-   const handleEdit = () => {};
+   const handleEdit = (post) => {
+      router.push(`/update-prompt?id=${post._id}`);
+   };
 
    const handleDelete = () => {};
 
