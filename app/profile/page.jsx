@@ -25,7 +25,22 @@ const MyProfile = () => {
       router.push(`/update-prompt?id=${post._id}`);
    };
 
-   const handleDelete = () => {};
+   const handleDelete = async (post) => {
+      const hasConfirm = confirm(
+         'Are you sure you want to delete this prompt?'
+      );
+      if (!hasConfirm) return null;
+
+      try {
+         await fetch(`/api/prompt/${post._id.toString()}`, {
+            method: 'delete',
+         });
+         const filteredPost = posts.filter((p) => p._id !== post._id);
+         setPosts(filteredPost);
+      } catch (err) {
+         console.log('error ', err);
+      }
+   };
 
    return (
       <Profile
@@ -33,7 +48,7 @@ const MyProfile = () => {
          desc={'Welcome to your personalized profile page'}
          data={posts}
          handleEdit={handleEdit}
-         handleDelete={() => {}}
+         handleDelete={handleDelete}
       />
    );
 };
